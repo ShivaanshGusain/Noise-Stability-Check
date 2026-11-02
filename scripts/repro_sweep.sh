@@ -7,6 +7,13 @@
 #   DATA=/path/to/wikitext OUT=runs bash scripts/repro_sweep.sh
 set -euo pipefail
 : "${DATA:?set DATA to the folder with wiki.train.tokens, wiki.valid.tokens, wiki.test.tokens}"
+for f in wiki.train.tokens wiki.valid.tokens wiki.test.tokens; do
+    if [[ ! -f "$DATA/$f" ]]; then
+        echo "Missing $DATA/$f. Set DATA to the folder that holds the three WikiText files" >&2
+        echo "(in the supplementary material: Transformers_Sensitivity/data/wikitext/)." >&2
+        exit 1
+    fi
+done
 OUT="${OUT:-runs}"
 EPOCHS="${EPOCHS:-60}"
 SEEDS="${SEEDS:-0 1 2 3 4}"

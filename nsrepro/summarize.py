@@ -40,6 +40,9 @@ def main(argv=None):
             with open(path) as handle:
                 run = json.load(handle)
             groups[(folder, run["label"])].append(run)
+    if not groups:
+        print(f"No finished runs (*.json) found in {args.folders}. Run scripts/leak_test.sh first.")
+        return
     for (folder, label), runs in groups.items():
         print(f"\n{folder} :: {label}  ({len(runs)} seeds)")
         h = [r["history"] for r in runs]
